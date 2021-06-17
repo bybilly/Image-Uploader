@@ -13,6 +13,7 @@ const s3 = new AWS.S3({
 const app = express();
 
 app.set('view engine', 'ejs');
+app.use(express.json());
 
 db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS images (id INT NOT NULL PRIMARY KEY, link VARCHAR(40));");
@@ -34,7 +35,7 @@ app.get('/image/:id', (req, res) => {
         db.get('SELECT link FROM images WHERE id = ?;', [id], (err, row) => {
             if (err) return res.render('error');
             try {
-                return res.render('image', { link: row.link });
+                return res.render('image', { id: id, link: row.link });
             } catch {
                 return res.render('error');
             }
@@ -44,7 +45,7 @@ app.get('/image/:id', (req, res) => {
 
 app.post('/upload', (req, res) => {
     if (!req.files || !req.files.file) {
-        return res.status(400).send('No files uploaded');
+        return res.status(400).json({error: 'No files uploaded'});
     }
 
     let file = req.files.file;
@@ -52,7 +53,7 @@ app.post('/upload', (req, res) => {
     let fileType = mime.getType(file.name);
 
     if (!allowedTypes.includes(fileType)) {
-        return res.status(400).send('Invalid file type');
+        return res.status(400).json({error: 'Invalid file type'});
     }
 
     let id = uniqid.time();
@@ -67,7 +68,7 @@ app.post('/upload', (req, res) => {
 
     let link;
     s3.upload(uploadParams, function(s3Err, data) {
-        if (s3Err) return res.status(400).send('Unknown error, please try again in a bit');
+        if (s3Err) return res.status(400).json({error: 'Unknown error, please try again later'});
         console.log(`File uploaded successfully at ${data.Location}`)
         link = data.Location;
 
@@ -75,7 +76,7 @@ app.post('/upload', (req, res) => {
             db.run(`INSERT INTO images VALUES ('${id}', '${link}');`);
         });
 
-        res.redirect(`/image/${id}`);
+        res.status(200).json({ url: `/image/${id}` });
     });
 });
 
