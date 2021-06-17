@@ -15,10 +15,10 @@ const s3 = new AWS.S3({
 });
 const app = express();
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/uploader.bybilly.uk/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/uploader.bybilly.uk/fullchain.pem', 'utf8');
+// const privateKey = fs.readFileSync('/etc/letsencrypt/live/uploader.bybilly.uk/privkey.pem', 'utf8');
+// const certificate = fs.readFileSync('/etc/letsencrypt/live/uploader.bybilly.uk/fullchain.pem', 'utf8');
 
-const credentials = {key: privateKey, cert: certificate};
+// const credentials = {key: privateKey, cert: certificate};
 
 app.set('view engine', 'ejs');
 app.use(express.json());
@@ -89,8 +89,8 @@ app.post('/upload', (req, res) => {
 });
 
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(80);
-httpsServer.listen(443);
+// httpsServer.listen(443);
 console.log("Server running on port 80 and 443");

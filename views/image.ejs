@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Image</title>
+    <meta property="og:title" content="Image Uploader - View image <%= id %>">
+    <meta property="og:image" content="<%= link %>">
+    <title>Image Uploader - View image <%= id %></title>
 
     <style>
         * {
@@ -18,53 +20,71 @@
         }
 
         h1 {
-            font-size: 29px;
+            font-size: 22px;
             text-transform: uppercase;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: black;
-            margin: 0;
-            padding: 25px;
-            border-bottom-right-radius: 18px;
+        }
+
+        header a {
+            text-decoration: none;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 30px;
+            font-size: 18px;
+            background: #333;
+            color: white;
+            width: 100%;
+            height: 60px;
         }
 
         img {
-            max-width: 100%;
+            max-width: calc(100% - 10px);
             max-height: 900px;
-            border: 3px solid white;
-            margin: 120px 0 150px 0;
+            border: 5px solid white;
+            border-radius: 4px;
+            margin: 25px 0 15px 0;
         }
 
-        .imgcon {
+        .main {
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100%;
+            min-height: calc(100vh - 150px);
         }
 
         footer {
             display: flex;
             justify-content: space-between;
-            padding: 30px 30px;
+            align-items: center;
+            padding: 25px 30px;
             font-size: 18px;
-            background: #333;
             color: white;
-            position: fixed;
             width: 100%;
-            bottom: 0;
-            left: 0;
+            height: 40px;
         }
 
         a {
             color: white;
         }
+
+        #link {
+            border: 2px solid #111;
+            height: 25px;
+            width: 260px;
+        }
     </style>
 </head>
 <body>
-    <h1>YOU ARE VIEWING IMAGE: <%= id %></h1>
-    <div class="imgcon"><img src="<%= link %>"></div>
+    <header>
+        <h1><a href='/'>Simple Image Uploader</a></h1>
+        <p>Share this image: <input id="link" readonly value="https://uploader.bybilly.uk/image/<%= id %>"></p>
+    </header>
+    <div class="main"><img src="<%= link %>"></div>
+    <hr>
     <footer>
         <p>Made by Billy :)</p>
         <p><a href="/">Upload your own image</a></p>
