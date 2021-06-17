@@ -6,6 +6,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('images.db');
 const AWS = require('aws-sdk');
 const fileUpload = require('express-fileupload');
+const http = require('http');
 const https = require('https');
 const express = require('express');
 const s3 = new AWS.S3({
