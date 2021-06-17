@@ -1,6 +1,7 @@
 require('dotenv').config({ path: './config.env' });
 const mime = require('mime');
 const uniqid = require('uniqid');
+const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('images.db');
 const AWS = require('aws-sdk');
