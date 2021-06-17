@@ -5,12 +5,18 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('images.db');
 const AWS = require('aws-sdk');
 const fileUpload = require('express-fileupload');
+const https = require('https');
 const express = require('express');
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretAccessKey: process.env.SECRET_ACCESS_KEY
 });
 const app = express();
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/uploader.bybilly.uk/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/uploader.bybilly.uk/fullchain.pem', 'utf8');
+
+const credentials = {key: privateKey, cert: certificate};
 
 app.set('view engine', 'ejs');
 app.use(express.json());
@@ -80,5 +86,9 @@ app.post('/upload', (req, res) => {
     });
 });
 
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
 
-app.listen(3000);
+httpServer.listen(80);
+httpsServer.listen(443);
+console.log("Server running on port 80 and 443");
