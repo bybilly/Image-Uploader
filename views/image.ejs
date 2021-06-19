@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>View Image <%= id %></title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Image Uploader - View image <%= id %>">
+
+    <meta name="twitter:card" content="photo">
+    <meta name="twitter:site" content="@billy_lardner">
+    <meta name="twitter:title" content="View Image <%= id %>">
+    <meta name="twitter:description" content="Billy's Image Uploader">
+    <meta name="twitter:image:src" content="<%= link %>">
+    <meta name="twitter:image:alt" content="Image uploaded by a user with ID <%= id %>">
+
+    <meta property="og:site_name" content="Billy's Image Uploader">
+    <meta property="og:title" content="View Image <%= id %>">
     <meta property="og:image" content="<%= link %>">
+    <meta property="og:description" content="Billy's Image Uploader">
+    <meta property="og:url" content="https://uploader/bybilly.uk/<%= id %>">
+    <meta property="og:type" content="website">
+
     <title>Image Uploader - View image <%= id %></title>
 
     <style>
